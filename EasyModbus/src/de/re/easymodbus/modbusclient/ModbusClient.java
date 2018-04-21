@@ -15,20 +15,31 @@
 */
 package de.re.easymodbus.modbusclient;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.*;
+import java.io.InputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
-import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
 
-import java.io.InputStream;
-import jssc.*;
-import de.re.easymodbus.datatypes.*;
+import de.re.easymodbus.datatypes.Parity;
+import de.re.easymodbus.datatypes.RegisterOrder;
+import de.re.easymodbus.datatypes.StopBits;
 import de.re.easymodbus.exceptions.ModbusException;
 import de.re.easymodbus.mqtt.EasyModbus2Mqtt;
+import jssc.SerialPort;
+import jssc.SerialPortException;
+import jssc.SerialPortTimeoutException;
 
 
      /**
@@ -69,7 +80,6 @@ public class ModbusClient
     private boolean[] mqttDiscreteInputsOldValues;
     private int[] mqttInputRegistersOldValues;
     private int[] mqttHoldingRegistersOldValues;
-    private int numberOfRetries = 3;				//Number of retries in case of serial connection
     private int baudrate = 9600;
     private Parity parity = Parity.EVEN;
     private StopBits stopBits = StopBits.ONE;
@@ -819,7 +829,7 @@ public class ModbusClient
 					sendData = new byte[data.length-2];
 					System.arraycopy(data, 0, sendData, 0, data.length-2);
 					for (SendDataChangedListener hl : sendDataChangedListener)
-						hl.SendDataChanged();
+						hl.sendDataChanged();
 				}
 				data = new byte[2100];
 				int numberOfBytes = inStream.read(data, 0, data.length);
@@ -828,7 +838,7 @@ public class ModbusClient
 					receiveData = new byte[numberOfBytes];
 					System.arraycopy(data, 0, receiveData, 0, numberOfBytes);
 					for (ReceiveDataChangedListener hl : receiveDataChangedListener)
-						hl.ReceiveDataChanged();
+						hl.receiveDataChanged();
                     if (debug) StoreLogData.getInstance().Store("Receive ModbusTCP-Data: " + Arrays.toString(data));
 
 				}
@@ -1023,7 +1033,7 @@ public class ModbusClient
 					sendData = new byte[data.length-2];
 					System.arraycopy(data, 0, sendData, 0, data.length-2);
 					for (SendDataChangedListener hl : sendDataChangedListener)
-						hl.SendDataChanged();
+						hl.sendDataChanged();
 				}
 				data = new byte[2100];
 				int numberOfBytes = inStream.read(data, 0, data.length);
@@ -1032,7 +1042,7 @@ public class ModbusClient
 					receiveData = new byte[numberOfBytes];
 					System.arraycopy(data, 0, receiveData, 0, numberOfBytes);
 					for (ReceiveDataChangedListener hl : receiveDataChangedListener)
-						hl.ReceiveDataChanged();
+						hl.receiveDataChanged();
 					if (debug) StoreLogData.getInstance().Store("Receive ModbusTCP-Data: " + Arrays.toString(data));
 				}
 			}
@@ -1234,7 +1244,7 @@ public class ModbusClient
 					sendData = new byte[data.length-2];
 					System.arraycopy(data, 0, sendData, 0, data.length-2);
 					for (SendDataChangedListener hl : sendDataChangedListener)
-						hl.SendDataChanged();
+						hl.sendDataChanged();
 				}
 				data = new byte[2100];
 				int numberOfBytes = inStream.read(data, 0, data.length);
@@ -1243,7 +1253,7 @@ public class ModbusClient
 					receiveData = new byte[numberOfBytes];
 					System.arraycopy(data, 0, receiveData, 0, numberOfBytes);
 					for (ReceiveDataChangedListener hl : receiveDataChangedListener)
-						hl.ReceiveDataChanged();
+						hl.receiveDataChanged();
 					if (debug) StoreLogData.getInstance().Store("Receive ModbusTCP-Data: " + Arrays.toString(data));
 				}
                         }
@@ -1442,7 +1452,7 @@ public class ModbusClient
 					sendData = new byte[data.length-2];
 					System.arraycopy(data, 0, sendData, 0, data.length-2);
 					for (SendDataChangedListener hl : sendDataChangedListener)
-						hl.SendDataChanged();
+						hl.sendDataChanged();
 				}
 				data = new byte[2100];
 				int numberOfBytes = inStream.read(data, 0, data.length);
@@ -1451,7 +1461,7 @@ public class ModbusClient
 					receiveData = new byte[numberOfBytes];
 					System.arraycopy(data, 0, receiveData, 0, numberOfBytes);
 					for (ReceiveDataChangedListener hl : receiveDataChangedListener)
-						hl.ReceiveDataChanged();
+						hl.receiveDataChanged();
 					if (debug) StoreLogData.getInstance().Store("Receive ModbusTCP-Data: " + Arrays.toString(data));
 				}
 			}
@@ -1593,7 +1603,7 @@ public class ModbusClient
 					sendData = new byte[data.length-2];
 					System.arraycopy(data, 0, sendData, 0, data.length-2);
 					for (SendDataChangedListener hl : sendDataChangedListener)
-						hl.SendDataChanged();
+						hl.sendDataChanged();
 				}
 				data = new byte[2100];
 				int numberOfBytes = inStream.read(data, 0, data.length);
@@ -1602,7 +1612,7 @@ public class ModbusClient
 					receiveData = new byte[numberOfBytes];
 					System.arraycopy(data, 0, receiveData, 0, numberOfBytes);
 					for (ReceiveDataChangedListener hl : receiveDataChangedListener)
-						hl.ReceiveDataChanged();
+						hl.receiveDataChanged();
 					if (debug) StoreLogData.getInstance().Store("Receive ModbusTCP-Data: " + Arrays.toString(data));
 				}
 			}
@@ -1726,7 +1736,7 @@ public class ModbusClient
 				sendData = new byte[data.length-2];
 				System.arraycopy(data, 0, sendData, 0, data.length-2);
 				for (SendDataChangedListener hl : sendDataChangedListener)
-					hl.SendDataChanged();
+					hl.sendDataChanged();
 			}
 			data = new byte[2100];
 			int numberOfBytes = inStream.read(data, 0, data.length);
@@ -1735,7 +1745,7 @@ public class ModbusClient
 				receiveData = new byte[numberOfBytes];
 				System.arraycopy(data, 0, receiveData, 0, numberOfBytes);
 				for (ReceiveDataChangedListener hl : receiveDataChangedListener)
-					hl.ReceiveDataChanged();
+					hl.receiveDataChanged();
 				if (debug) StoreLogData.getInstance().Store("Receive ModbusTCP-Data: " + Arrays.toString(data));
 			}
 		}
@@ -1877,7 +1887,7 @@ public class ModbusClient
 				sendData = new byte[data.length-2];
 				System.arraycopy(data, 0, sendData, 0, data.length-2);
 				for (SendDataChangedListener hl : sendDataChangedListener)
-					hl.SendDataChanged();
+					hl.sendDataChanged();
 			}
 			data = new byte[2100];
 			int numberOfBytes = inStream.read(data, 0, data.length);
@@ -1886,7 +1896,7 @@ public class ModbusClient
 				receiveData = new byte[numberOfBytes];
 				System.arraycopy(data, 0, receiveData, 0, numberOfBytes);
 				for (ReceiveDataChangedListener hl : receiveDataChangedListener)
-					hl.ReceiveDataChanged();
+					hl.receiveDataChanged();
 				if (debug) StoreLogData.getInstance().Store("Receive ModbusTCP-Data: " + Arrays.toString(data));
 			}
 		}
@@ -2015,7 +2025,7 @@ public class ModbusClient
 				sendData = new byte[data.length-2];
 				System.arraycopy(data, 0, sendData, 0, data.length-2);
 				for (SendDataChangedListener hl : sendDataChangedListener)
-					hl.SendDataChanged();
+					hl.sendDataChanged();
 			}
 			data = new byte[2100];
 			int numberOfBytes = inStream.read(data, 0, data.length);
@@ -2024,7 +2034,7 @@ public class ModbusClient
 				receiveData = new byte[numberOfBytes];
 				System.arraycopy(data, 0, receiveData, 0, numberOfBytes);
 				for (ReceiveDataChangedListener hl : receiveDataChangedListener)
-					hl.ReceiveDataChanged();
+					hl.receiveDataChanged();
 				if (debug) StoreLogData.getInstance().Store("Receive ModbusTCP-Data: " + Arrays.toString(data));
 			}
 		}
@@ -2170,7 +2180,7 @@ public class ModbusClient
 				sendData = new byte[data.length-2];
 				System.arraycopy(data, 0, sendData, 0, data.length-2);
 				for (SendDataChangedListener hl : sendDataChangedListener)
-					hl.SendDataChanged();
+					hl.sendDataChanged();
 			}
 			data = new byte[2100];
 			int numberOfBytes = inStream.read(data, 0, data.length);
@@ -2179,7 +2189,7 @@ public class ModbusClient
 				receiveData = new byte[numberOfBytes];
 				System.arraycopy(data, 0, receiveData, 0, numberOfBytes);
 				for (ReceiveDataChangedListener hl : receiveDataChangedListener)
-					hl.ReceiveDataChanged();
+					hl.receiveDataChanged();
 				if (debug) StoreLogData.getInstance().Store("Receive ModbusTCP-Data: " + Arrays.toString(data));
 			}
 		}

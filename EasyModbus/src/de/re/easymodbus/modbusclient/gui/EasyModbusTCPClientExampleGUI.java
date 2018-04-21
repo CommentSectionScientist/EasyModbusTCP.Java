@@ -15,17 +15,25 @@
 */
 package de.re.easymodbus.modbusclient.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+
 import de.re.easymodbus.modbusclient.ModbusClient;
 import de.re.easymodbus.modbusclient.ReceiveDataChangedListener;
 import de.re.easymodbus.modbusclient.SendDataChangedListener;
-
-import javax.swing.*;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 /**
  *
  * @author Stefan Roﬂmann
@@ -34,7 +42,7 @@ import java.awt.event.ActionEvent;
 public class EasyModbusTCPClientExampleGUI extends javax.swing.JFrame  
 implements ReceiveDataChangedListener , SendDataChangedListener
 {
-	JComboBox comboBox;
+	JComboBox<String> comboBox;
     /**
      * Creates new form EasyModbusTCPClientExampleGUI
      */
@@ -48,7 +56,7 @@ implements ReceiveDataChangedListener , SendDataChangedListener
         modbusClient.addSendDataChangedListener(this);   
     }
     
-    public void ReceiveDataChanged()
+    public void receiveDataChanged()
     {
         jTextArea1.append("Rx:");
         for (int i = 0; i < modbusClient.receiveData.length; i++)
@@ -62,7 +70,7 @@ implements ReceiveDataChangedListener , SendDataChangedListener
         jTextArea1.append("\n");
     }
     
-    public void SendDataChanged()
+    public void sendDataChanged()
     {
         jTextArea1.append("Tx:");
         for (int i = 0; i < modbusClient.sendData.length; i++)
@@ -191,7 +199,7 @@ implements ReceiveDataChangedListener , SendDataChangedListener
         );
         jPanel1.setLayout(jPanel1Layout);
         
-        comboBox = new JComboBox();
+        comboBox = new JComboBox<>();
         comboBox.addItemListener(new ItemListener() {
         	public void itemStateChanged(ItemEvent arg0) 
         	{
@@ -209,7 +217,7 @@ implements ReceiveDataChangedListener , SendDataChangedListener
         		}
         	}
         });
-        comboBox.setModel(new DefaultComboBoxModel(new String[] {"Modbus TCP", "Modbus RTU"}));
+        comboBox.setModel(new DefaultComboBoxModel<>(new String[] {"Modbus TCP", "Modbus RTU"}));
         
         jpModbusTCP = new JPanel();
         
@@ -422,14 +430,14 @@ implements ReceiveDataChangedListener , SendDataChangedListener
             	}
             	}	
         }          
-        DefaultListModel listModel = new DefaultListModel();
+        DefaultListModel<String> listModel = new DefaultListModel<>();
         int startingAddress = Integer.valueOf(jTextFieldStartingAddress.getText())-1;
         int numberOfValues = Integer.valueOf(jTextFieldNumberOfValues.getText());
         try
         {
             boolean[] serverResponse = modbusClient.ReadCoils(startingAddress, numberOfValues);
             for (int i = 0; i < serverResponse.length; i++)
-                listModel.addElement(serverResponse[i]);
+                listModel.addElement(Boolean.toString(serverResponse[i]));
         }
         catch (Exception e)
         {
@@ -467,14 +475,14 @@ implements ReceiveDataChangedListener , SendDataChangedListener
             	}
             	}	
         }          
-        DefaultListModel listModel = new DefaultListModel();
+        DefaultListModel<String> listModel = new DefaultListModel<>();
         int startingAddress = Integer.valueOf(jTextFieldStartingAddress.getText())-1;
         int numberOfValues = Integer.valueOf(jTextFieldNumberOfValues.getText());
         try
         {
             boolean[] serverResponse = modbusClient.ReadDiscreteInputs(startingAddress, numberOfValues);
             for (int i = 0; i < serverResponse.length; i++)
-                listModel.addElement(serverResponse[i]);
+                listModel.addElement(Boolean.toString(serverResponse[i]));
         }
         catch (Exception e)
         {
@@ -511,14 +519,14 @@ implements ReceiveDataChangedListener , SendDataChangedListener
             	}
             	}	
         }          
-        DefaultListModel listModel = new DefaultListModel();
+        DefaultListModel<String> listModel = new DefaultListModel<>();
         int startingAddress = Integer.valueOf(jTextFieldStartingAddress.getText())-1;
         int numberOfValues = Integer.valueOf(jTextFieldNumberOfValues.getText());
         try
         {
             int[] serverResponse = modbusClient.ReadHoldingRegisters(startingAddress, numberOfValues);
             for (int i = 0; i < serverResponse.length; i++)
-                listModel.addElement(serverResponse[i]);
+                listModel.addElement(Integer.toString(serverResponse[i]));
         }
         catch (Exception e)
         {
@@ -555,14 +563,14 @@ implements ReceiveDataChangedListener , SendDataChangedListener
             	}
             	}	
         }          
-        DefaultListModel listModel = new DefaultListModel();
+        DefaultListModel<String> listModel = new DefaultListModel<>();
         int startingAddress = Integer.valueOf(jTextFieldStartingAddress.getText())-1;
         int numberOfValues = Integer.valueOf(jTextFieldNumberOfValues.getText());
         try
         {
             int[] serverResponse = modbusClient.ReadInputRegisters(startingAddress, numberOfValues);
             for (int i = 0; i < serverResponse.length; i++)
-                listModel.addElement(serverResponse[i]);
+                listModel.addElement(Integer.toString(serverResponse[i]));
         }
         catch (Exception e)
         {
