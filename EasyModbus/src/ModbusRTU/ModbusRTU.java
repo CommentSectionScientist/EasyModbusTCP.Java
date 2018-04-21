@@ -34,11 +34,11 @@ public class ModbusRTU
      {
     	 boolean success = false;
          ModbusClient modbusClient = new ModbusClient("127.0.0.1",502);
-         System.out.println(modbusClient.Available(500));
-         modbusClient.Connect();
+         System.out.println(modbusClient.available(500));
+         modbusClient.connect();
          while (true)
          {
-        	 System.out.println(modbusClient.ReadInputRegisters(0, 10)[5]);
+        	 System.out.println(modbusClient.readInputRegisters(0, 10)[5]);
         	 //Thread.sleep(200);
          }
          //modbusClient.WriteMultipleCoils(0, new boolean[] {true,true,true});

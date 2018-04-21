@@ -128,7 +128,7 @@ public class ModbusClient
         * @throws UnknownHostException
         * @throws IOException
         */        
-	public void Connect() throws UnknownHostException, IOException
+	public void connect() throws UnknownHostException, IOException
 	{
 		if (!udpFlag && !this.serialflag)
 		{
@@ -169,7 +169,7 @@ public class ModbusClient
         * @throws UnknownHostException
         * @throws IOException
         */   
-	public void Connect(String ipAddress, int port) throws UnknownHostException, IOException
+	public void connect(String ipAddress, int port) throws UnknownHostException, IOException
 	{
 		this.ipAddress = ipAddress;
 		this.port = port;
@@ -187,7 +187,7 @@ public class ModbusClient
         * @throws UnknownHostException
         * @throws IOException
         */   
-	public void Connect(String comPort) throws SerialPortException
+	public void connect(String comPort) throws SerialPortException
 	{
 		this.serialflag = true;
 		serialPort = new SerialPort(comPort);
@@ -207,7 +207,7 @@ public class ModbusClient
         * @param        registers   16 Bit Registers
         * @return       32 bit real value
         */
-    public static float ConvertRegistersToFloat(int[] registers) throws IllegalArgumentException
+    public static float convertRegistersToFloat(int[] registers) throws IllegalArgumentException
     {
         if (registers.length != 2)
             throw new IllegalArgumentException("Input Array length invalid");
@@ -229,7 +229,7 @@ public class ModbusClient
     * @param        registers  16 Bit Registers
     * @return       64 bit double value
     */
-    public static double ConvertRegistersToDouble(int[] registers) throws IllegalArgumentException
+    public static double convertRegistersToDouble(int[] registers) throws IllegalArgumentException
     {
     	if (registers.length != 4)
     		throw new IllegalArgumentException("Input Array length invalid");
@@ -256,14 +256,14 @@ public class ModbusClient
     * @param        registerOrder High Register first or low Register first 
     * @return       64 bit double value
     */
-    public static double ConvertRegistersToDouble(int[] registers, RegisterOrder registerOrder) throws IllegalArgumentException
+    public static double convertRegistersToDouble(int[] registers, RegisterOrder registerOrder) throws IllegalArgumentException
     {
     	if (registers.length != 4)
     		throw new IllegalArgumentException("Input Array length invalid");
     	int[] swappedRegisters = { registers[0], registers[1], registers[2], registers[3] };
     	if (registerOrder == RegisterOrder.HIGH_LOW)
     		swappedRegisters = new int[] { registers[3], registers[2], registers[1], registers[0] };
-    	return ConvertRegistersToDouble(swappedRegisters);
+    	return convertRegistersToDouble(swappedRegisters);
     }
    
         /**
@@ -272,12 +272,12 @@ public class ModbusClient
         * @param        registerOrder    High Register first or low Register first 
         * @return       32 bit real value
         */
-    public static float ConvertRegistersToFloat(int[] registers, RegisterOrder registerOrder) throws IllegalArgumentException
+    public static float convertRegistersToFloat(int[] registers, RegisterOrder registerOrder) throws IllegalArgumentException
     {
         int [] swappedRegisters = {registers[0],registers[1]};
         if (registerOrder == RegisterOrder.HIGH_LOW) 
             swappedRegisters = new int[] {registers[1],registers[0]};
-        return ConvertRegistersToFloat(swappedRegisters);
+        return convertRegistersToFloat(swappedRegisters);
     }
    
     
@@ -286,7 +286,7 @@ public class ModbusClient
     * @param        registers   16 Bit Registers
     * @return       64 bit value
     */
-    public static long ConvertRegistersToLong(int[] registers) throws IllegalArgumentException
+    public static long convertRegistersToLong(int[] registers) throws IllegalArgumentException
     {
     	if (registers.length != 4)
     		throw new IllegalArgumentException("Input Array length invalid");
@@ -312,14 +312,14 @@ public class ModbusClient
      * @param        registers   16 Bit Registers
      * @return       64 bit value
      */
-    public static long ConvertRegistersToLong(int[] registers, RegisterOrder registerOrder) throws IllegalArgumentException
+    public static long convertRegistersToLong(int[] registers, RegisterOrder registerOrder) throws IllegalArgumentException
     {
     	if (registers.length != 4)
     		throw new IllegalArgumentException("Input Array length invalid");
     	int[] swappedRegisters = { registers[0], registers[1], registers[2], registers[3] };
     	if (registerOrder == RegisterOrder.HIGH_LOW)
     		swappedRegisters = new int[] { registers[3], registers[2], registers[1], registers[0] };
-    	return ConvertRegistersToLong(swappedRegisters);
+    	return convertRegistersToLong(swappedRegisters);
     }
     
         /**
@@ -327,7 +327,7 @@ public class ModbusClient
         * @param        registers   16 Bit Registers
         * @return       32 bit value
         */
-    public static int ConvertRegistersToInt(int[] registers) throws IllegalArgumentException
+    public static int convertRegistersToInt(int[] registers) throws IllegalArgumentException
     {
         if (registers.length != 2)
             throw new IllegalArgumentException("Input Array length invalid");
@@ -350,12 +350,12 @@ public class ModbusClient
         * @param        registerOrder    High Register first or low Register first
         * @return       32 bit value
         */
-    public static int ConvertRegistersToInt(int[] registers, RegisterOrder registerOrder) throws IllegalArgumentException
+    public static int convertRegistersToInt(int[] registers, RegisterOrder registerOrder) throws IllegalArgumentException
     {
         int[] swappedRegisters = { registers[0], registers[1] };
         if (registerOrder == RegisterOrder.HIGH_LOW)
             swappedRegisters = new int[] { registers[1], registers[0] };
-        return ConvertRegistersToInt(swappedRegisters);
+        return convertRegistersToInt(swappedRegisters);
     }
     
         /**
@@ -363,7 +363,7 @@ public class ModbusClient
         * @param        floatValue      real to be converted
         * @return       16 Bit Register values
         */
-    public static int[] ConvertFloatToRegisters(float floatValue)
+    public static int[] convertFloatToRegisters(float floatValue)
     {
         byte[] floatBytes = toByteArray(floatValue);
         byte[] highRegisterBytes = 
@@ -394,9 +394,9 @@ public class ModbusClient
         * @param        registerOrder    High Register first or low Register first
         * @return       16 Bit Register values
         */
-    public static int[] ConvertFloatToRegisters(float floatValue, RegisterOrder registerOrder)
+    public static int[] convertFloatToRegisters(float floatValue, RegisterOrder registerOrder)
     {
-        int[] registerValues = ConvertFloatToRegisters(floatValue);
+        int[] registerValues = convertFloatToRegisters(floatValue);
         int[] returnValue = registerValues;
         if (registerOrder == RegisterOrder.HIGH_LOW)
             returnValue = new int[] { registerValues[1], registerValues[0] };
@@ -408,7 +408,7 @@ public class ModbusClient
         * @param        intValue      Value to be converted
         * @return       16 Bit Register values
         */
-    public static int[] ConvertIntToRegisters(int intValue)
+    public static int[] convertIntToRegisters(int intValue)
     {
         byte[] doubleBytes = toByteArrayInt(intValue);
         byte[] highRegisterBytes = 
@@ -439,9 +439,9 @@ public class ModbusClient
         * @param        registerOrder    High Register first or low Register first
         * @return       16 Bit Register values
         */
-    public static int[] ConvertIntToRegisters(int intValue, RegisterOrder registerOrder)
+    public static int[] convertIntToRegisters(int intValue, RegisterOrder registerOrder)
     {
-        int[] registerValues = ConvertIntToRegisters(intValue);
+        int[] registerValues = convertIntToRegisters(intValue);
         int[] returnValue = registerValues;
         if (registerOrder == RegisterOrder.HIGH_LOW)
             returnValue = new int[] { registerValues[1], registerValues[0] };
@@ -453,7 +453,7 @@ public class ModbusClient
      * @param        longValue      Value to be converted
      * @return       16 Bit Register values
      */
-	 public static int[] ConvertLongToRegisters(long longValue)
+	 public static int[] convertLongToRegisters(long longValue)
 	 {
 	     byte[] doubleBytes = toByteArrayLong(longValue);
 	     byte[] highhighRegisterBytes = 
@@ -499,9 +499,9 @@ public class ModbusClient
      * @param        registerOrder    High Register first or low Register first
      * @return       16 Bit Register values
      */
-	 public static int[] ConvertLongToRegisters(int longValue, RegisterOrder registerOrder)
+	 public static int[] convertLongToRegisters(int longValue, RegisterOrder registerOrder)
 	 {
-	     int[] registerValues = ConvertLongToRegisters(longValue);
+	     int[] registerValues = convertLongToRegisters(longValue);
 	     int[] returnValue = registerValues;
 	     if (registerOrder == RegisterOrder.HIGH_LOW)
 	         returnValue = new int[] { registerValues[3], registerValues[2], registerValues[1], registerValues[0]};
@@ -513,7 +513,7 @@ public class ModbusClient
 	     * @param        doubleValue      Value to be converted
 	     * @return       16 Bit Register values
 	     */
-		 public static int[] ConvertDoubleToRegisters(double doubleValue)
+		 public static int[] convertDoubleToRegisters(double doubleValue)
 		 {
 		     byte[] doubleBytes = toByteArrayDouble(doubleValue);
 		     byte[] highhighRegisterBytes = 
@@ -560,9 +560,9 @@ public class ModbusClient
 	     * @param        registerOrder    High Register first or low Register first
 	     * @return       16 Bit Register values
 	     */
-		 public static int[] ConvertDoubleToRegisters(double doubleValue, RegisterOrder registerOrder)
+		 public static int[] convertDoubleToRegisters(double doubleValue, RegisterOrder registerOrder)
 		 {
-		     int[] registerValues = ConvertDoubleToRegisters(doubleValue);
+		     int[] registerValues = convertDoubleToRegisters(doubleValue);
 		     int[] returnValue = registerValues;
 		     if (registerOrder == RegisterOrder.HIGH_LOW)
 		         returnValue = new int[] { registerValues[3], registerValues[2], registerValues[1], registerValues[0]};
@@ -576,7 +576,7 @@ public class ModbusClient
     * @param stringLength number of characters in String (must be even)
     * @return Converted String
     */
-    public static String ConvertRegistersToString(int[] registers, int offset, int stringLength)
+    public static String convertRegistersToString(int[] registers, int offset, int stringLength)
     { 
     byte[] result = new byte[stringLength];
     byte[] registerResult = new byte[2];
@@ -595,7 +595,7 @@ public class ModbusClient
     * @param stringToConvert String to Convert<
     * @return Converted String
     */
-    public static int[] ConvertStringToRegisters(String stringToConvert)
+    public static int[] convertStringToRegisters(String stringToConvert)
     {
         byte[] array = stringToConvert.getBytes();
         int[] returnarray = new int[stringToConvert.length() / 2 + stringToConvert.length() % 2];
@@ -694,9 +694,9 @@ public class ModbusClient
      * @throws SocketException 
      * @throws UnknownHostException 
      */
-    public boolean[] ReadDiscreteInputs(int startingAddress, int quantity, String mqttBrokerAddress) throws MqttPersistenceException, MqttException, UnknownHostException, SocketException, ModbusException, IOException, SerialPortException, SerialPortTimeoutException
+    public boolean[] readDiscreteInputs(int startingAddress, int quantity, String mqttBrokerAddress) throws MqttPersistenceException, MqttException, UnknownHostException, SocketException, ModbusException, IOException, SerialPortException, SerialPortTimeoutException
     {
-        boolean[] returnValue = this.ReadDiscreteInputs(startingAddress, quantity);
+        boolean[] returnValue = this.readDiscreteInputs(startingAddress, quantity);
         List<String> topic = new ArrayList<String>();
         List<String> payload = new ArrayList<String>();
         if (mqttPushOnChange && mqttDiscreteInputsOldValues == null)
@@ -734,7 +734,7 @@ public class ModbusClient
         * @throws SerialPortTimeoutException 
         * @throws SerialPortException 
         */    
-	public boolean[] ReadDiscreteInputs(int startingAddress, int quantity) throws de.re.easymodbus.exceptions.ModbusException,
+	public boolean[] readDiscreteInputs(int startingAddress, int quantity) throws de.re.easymodbus.exceptions.ModbusException,
                 UnknownHostException, SocketException, IOException, SerialPortException, SerialPortTimeoutException
 	{
 		if (tcpClientSocket == null)
@@ -900,9 +900,9 @@ public class ModbusClient
      * @throws SocketException 
      * @throws UnknownHostException 
      */
-    public boolean[] ReadCoils(int startingAddress, int quantity, String mqttBrokerAddress) throws MqttPersistenceException, MqttException, UnknownHostException, SocketException, ModbusException, IOException, SerialPortException, SerialPortTimeoutException
+    public boolean[] readCoils(int startingAddress, int quantity, String mqttBrokerAddress) throws MqttPersistenceException, MqttException, UnknownHostException, SocketException, ModbusException, IOException, SerialPortException, SerialPortTimeoutException
     {
-        boolean[] returnValue = this.ReadCoils(startingAddress, quantity);
+        boolean[] returnValue = this.readCoils(startingAddress, quantity);
         List<String> topic = new ArrayList<String>();
         List<String> payload = new ArrayList<String>();
         if (mqttPushOnChange && mqttCoilsOldValues == null)
@@ -939,7 +939,7 @@ public class ModbusClient
         * @throws SerialPortTimeoutException 
         * @throws SerialPortException 
         */
-	public boolean[] ReadCoils(int startingAddress, int quantity) throws de.re.easymodbus.exceptions.ModbusException,
+	public boolean[] readCoils(int startingAddress, int quantity) throws de.re.easymodbus.exceptions.ModbusException,
                 UnknownHostException, SocketException, IOException, SerialPortException, SerialPortTimeoutException
 	{
 		if (tcpClientSocket == null)
@@ -1102,9 +1102,9 @@ public class ModbusClient
      * @throws SocketException 
      * @throws UnknownHostException 
      */
-    public int[] ReadHoldingRegisters(int startingAddress, int quantity, String mqttBrokerAddress) throws MqttPersistenceException, MqttException, UnknownHostException, SocketException, ModbusException, IOException, SerialPortException, SerialPortTimeoutException
+    public int[] readHoldingRegisters(int startingAddress, int quantity, String mqttBrokerAddress) throws MqttPersistenceException, MqttException, UnknownHostException, SocketException, ModbusException, IOException, SerialPortException, SerialPortTimeoutException
     {
-        int[] returnValue = this.ReadHoldingRegisters(startingAddress, quantity);
+        int[] returnValue = this.readHoldingRegisters(startingAddress, quantity);
         List<String> topic = new ArrayList<String>();
         List<String> payload = new ArrayList<String>();
         if (mqttPushOnChange && mqttHoldingRegistersOldValues == null)
@@ -1141,7 +1141,7 @@ public class ModbusClient
         * @throws SerialPortTimeoutException 
         * @throws SerialPortException 
         */
-	public int[] ReadHoldingRegisters(int startingAddress, int quantity) throws de.re.easymodbus.exceptions.ModbusException,
+	public int[] readHoldingRegisters(int startingAddress, int quantity) throws de.re.easymodbus.exceptions.ModbusException,
                 UnknownHostException, SocketException, IOException, SerialPortException, SerialPortTimeoutException
 	{
 		if (tcpClientSocket == null)
@@ -1312,9 +1312,9 @@ public class ModbusClient
      * @throws SocketException 
      * @throws UnknownHostException 
      */
-    public int[] ReadInputRegisters(int startingAddress, int quantity, String mqttBrokerAddress) throws MqttPersistenceException, MqttException, UnknownHostException, SocketException, ModbusException, IOException, SerialPortException, SerialPortTimeoutException
+    public int[] readInputRegisters(int startingAddress, int quantity, String mqttBrokerAddress) throws MqttPersistenceException, MqttException, UnknownHostException, SocketException, ModbusException, IOException, SerialPortException, SerialPortTimeoutException
     {
-        int[] returnValue = this.ReadInputRegisters(startingAddress, quantity);
+        int[] returnValue = this.readInputRegisters(startingAddress, quantity);
         List<String> topic = new ArrayList<String>();
         List<String> payload = new ArrayList<String>();
         if (mqttPushOnChange && mqttInputRegistersOldValues == null)
@@ -1351,7 +1351,7 @@ public class ModbusClient
 	 * @throws SerialPortTimeoutException 
 	 * @throws SerialPortException 
         */
-	public int[] ReadInputRegisters(int startingAddress, int quantity) throws de.re.easymodbus.exceptions.ModbusException,
+	public int[] readInputRegisters(int startingAddress, int quantity) throws de.re.easymodbus.exceptions.ModbusException,
                 UnknownHostException, SocketException, IOException, SerialPortException, SerialPortTimeoutException
 	{
 		if (tcpClientSocket == null)
@@ -1509,7 +1509,7 @@ public class ModbusClient
         * @throws SerialPortTimeoutException 
         * @throws SerialPortException 
         */
-    public void WriteSingleCoil(int startingAddress, boolean value) throws de.re.easymodbus.exceptions.ModbusException,
+    public void writeSingleCoil(int startingAddress, boolean value) throws de.re.easymodbus.exceptions.ModbusException,
                 UnknownHostException, SocketException, IOException, SerialPortException, SerialPortTimeoutException
     {
         if (tcpClientSocket == null & !udpFlag)
@@ -1649,7 +1649,7 @@ public class ModbusClient
         * @throws SerialPortTimeoutException 
         * @throws SerialPortException 
         */
-    public void WriteSingleRegister(int startingAddress, int value) throws de.re.easymodbus.exceptions.ModbusException,
+    public void writeSingleRegister(int startingAddress, int value) throws de.re.easymodbus.exceptions.ModbusException,
                 UnknownHostException, SocketException, IOException, SerialPortException, SerialPortTimeoutException
     {
         if (tcpClientSocket == null & !udpFlag)
@@ -1782,7 +1782,7 @@ public class ModbusClient
      * @throws SerialPortTimeoutException 
      * @throws SerialPortException 
         */
-    public void WriteMultipleCoils(int startingAddress, boolean[] values) throws de.re.easymodbus.exceptions.ModbusException,
+    public void writeMultipleCoils(int startingAddress, boolean[] values) throws de.re.easymodbus.exceptions.ModbusException,
                 UnknownHostException, SocketException, IOException, SerialPortException, SerialPortTimeoutException
     {
         byte byteCount = (byte)(values.length/8+1);
@@ -1932,7 +1932,7 @@ public class ModbusClient
         * @throws SocketException
         * @throws SerialPortTimeoutException 
         * @throws SerialPortException 
-        */    public void WriteMultipleRegisters(int startingAddress, int[] values) throws de.re.easymodbus.exceptions.ModbusException,
+        */    public void writeMultipleRegisters(int startingAddress, int[] values) throws de.re.easymodbus.exceptions.ModbusException,
                 UnknownHostException, SocketException, IOException, SerialPortException, SerialPortTimeoutException
 
     {
@@ -2074,7 +2074,7 @@ public class ModbusClient
         * @throws SerialPortTimeoutException 
         * @throws SerialPortException 
         */
-    public int[] ReadWriteMultipleRegisters(int startingAddressRead, int quantityRead, int startingAddressWrite, int[] values) throws de.re.easymodbus.exceptions.ModbusException,
+    public int[] readWriteMultipleRegisters(int startingAddressRead, int quantityRead, int startingAddressWrite, int[] values) throws de.re.easymodbus.exceptions.ModbusException,
                 UnknownHostException, SocketException, IOException, SerialPortException, SerialPortTimeoutException
     {
         byte [] startingAddressReadLocal = new byte[2];
@@ -2236,7 +2236,7 @@ public class ModbusClient
         * @throws IOException
          * @throws SerialPortException 
         */
-	public void Disconnect() throws IOException, SerialPortException
+	public void disconnect() throws IOException, SerialPortException
 	{
 		if (!serialflag)
 		{
@@ -2326,7 +2326,7 @@ public class ModbusClient
 		return returnValue;
 	}
 	
-	public boolean Available(int timeout)
+	public boolean available(int timeout)
 	{
         InetAddress address;
 		try {

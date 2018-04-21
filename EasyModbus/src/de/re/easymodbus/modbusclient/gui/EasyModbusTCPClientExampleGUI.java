@@ -410,7 +410,7 @@ implements ReceiveDataChangedListener , SendDataChangedListener
         		modbusClient.setPort(Integer.valueOf(jTextFieldPort.getText()));
         		try
         		{
-        			modbusClient.Connect();
+        			modbusClient.connect();
         		}
         		catch (Exception e)
         		{
@@ -422,7 +422,7 @@ implements ReceiveDataChangedListener , SendDataChangedListener
             	try
             	{
             		modbusClient.setUnitIdentifier((byte)1);
-            		modbusClient.Connect(txtCom.getText());
+            		modbusClient.connect(txtCom.getText());
             	}
             	catch (Exception e)
             	{
@@ -435,7 +435,7 @@ implements ReceiveDataChangedListener , SendDataChangedListener
         int numberOfValues = Integer.valueOf(jTextFieldNumberOfValues.getText());
         try
         {
-            boolean[] serverResponse = modbusClient.ReadCoils(startingAddress, numberOfValues);
+            boolean[] serverResponse = modbusClient.readCoils(startingAddress, numberOfValues);
             for (int i = 0; i < serverResponse.length; i++)
                 listModel.addElement(Boolean.toString(serverResponse[i]));
         }
@@ -456,7 +456,7 @@ implements ReceiveDataChangedListener , SendDataChangedListener
         		try
         		{
         			modbusClient.setUnitIdentifier((byte)1);
-        			modbusClient.Connect();
+        			modbusClient.connect();
         		}
         		catch (Exception e)
         		{
@@ -467,7 +467,7 @@ implements ReceiveDataChangedListener , SendDataChangedListener
             {
             	try
             	{
-            		modbusClient.Connect(txtCom.getText());
+            		modbusClient.connect(txtCom.getText());
             	}
             	catch (Exception e)
             	{
@@ -480,7 +480,7 @@ implements ReceiveDataChangedListener , SendDataChangedListener
         int numberOfValues = Integer.valueOf(jTextFieldNumberOfValues.getText());
         try
         {
-            boolean[] serverResponse = modbusClient.ReadDiscreteInputs(startingAddress, numberOfValues);
+            boolean[] serverResponse = modbusClient.readDiscreteInputs(startingAddress, numberOfValues);
             for (int i = 0; i < serverResponse.length; i++)
                 listModel.addElement(Boolean.toString(serverResponse[i]));
         }
@@ -500,7 +500,7 @@ implements ReceiveDataChangedListener , SendDataChangedListener
         		modbusClient.setPort(Integer.valueOf(jTextFieldPort.getText()));
         		try
         		{
-        			modbusClient.Connect();
+        			modbusClient.connect();
         		}
         		catch (Exception e)
         		{
@@ -511,7 +511,7 @@ implements ReceiveDataChangedListener , SendDataChangedListener
             {
             	try
             	{
-            		modbusClient.Connect(txtCom.getText());
+            		modbusClient.connect(txtCom.getText());
             	}
             	catch (Exception e)
             	{
@@ -524,7 +524,7 @@ implements ReceiveDataChangedListener , SendDataChangedListener
         int numberOfValues = Integer.valueOf(jTextFieldNumberOfValues.getText());
         try
         {
-            int[] serverResponse = modbusClient.ReadHoldingRegisters(startingAddress, numberOfValues);
+            int[] serverResponse = modbusClient.readHoldingRegisters(startingAddress, numberOfValues);
             for (int i = 0; i < serverResponse.length; i++)
                 listModel.addElement(Integer.toString(serverResponse[i]));
         }
@@ -544,7 +544,7 @@ implements ReceiveDataChangedListener , SendDataChangedListener
         		modbusClient.setPort(Integer.valueOf(jTextFieldPort.getText()));
         		try
         		{
-        			modbusClient.Connect();
+        			modbusClient.connect();
         		}
         		catch (Exception e)
         		{
@@ -555,7 +555,7 @@ implements ReceiveDataChangedListener , SendDataChangedListener
             {
             	try
             	{
-            		modbusClient.Connect(txtCom.getText());
+            		modbusClient.connect(txtCom.getText());
             	}
             	catch (Exception e)
             	{
@@ -568,7 +568,7 @@ implements ReceiveDataChangedListener , SendDataChangedListener
         int numberOfValues = Integer.valueOf(jTextFieldNumberOfValues.getText());
         try
         {
-            int[] serverResponse = modbusClient.ReadInputRegisters(startingAddress, numberOfValues);
+            int[] serverResponse = modbusClient.readInputRegisters(startingAddress, numberOfValues);
             for (int i = 0; i < serverResponse.length; i++)
                 listModel.addElement(Integer.toString(serverResponse[i]));
         }
