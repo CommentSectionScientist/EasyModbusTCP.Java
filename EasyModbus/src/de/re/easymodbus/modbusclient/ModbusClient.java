@@ -71,8 +71,8 @@ public class ModbusClient
     private int[] mqttHoldingRegistersOldValues;
     private int numberOfRetries = 3;				//Number of retries in case of serial connection
     private int baudrate = 9600;
-    private Parity parity = Parity.Even;
-    private StopBits stopBits = StopBits.One;
+    private Parity parity = Parity.EVEN;
+    private StopBits stopBits = StopBits.ONE;
     private boolean debug=false;
 	
 	public ModbusClient(String ipAddress, int port)
@@ -251,7 +251,7 @@ public class ModbusClient
     	if (registers.length != 4)
     		throw new IllegalArgumentException("Input Array length invalid");
     	int[] swappedRegisters = { registers[0], registers[1], registers[2], registers[3] };
-    	if (registerOrder == RegisterOrder.HighLow)
+    	if (registerOrder == RegisterOrder.HIGH_LOW)
     		swappedRegisters = new int[] { registers[3], registers[2], registers[1], registers[0] };
     	return ConvertRegistersToDouble(swappedRegisters);
     }
@@ -265,7 +265,7 @@ public class ModbusClient
     public static float ConvertRegistersToFloat(int[] registers, RegisterOrder registerOrder) throws IllegalArgumentException
     {
         int [] swappedRegisters = {registers[0],registers[1]};
-        if (registerOrder == RegisterOrder.HighLow) 
+        if (registerOrder == RegisterOrder.HIGH_LOW) 
             swappedRegisters = new int[] {registers[1],registers[0]};
         return ConvertRegistersToFloat(swappedRegisters);
     }
@@ -307,7 +307,7 @@ public class ModbusClient
     	if (registers.length != 4)
     		throw new IllegalArgumentException("Input Array length invalid");
     	int[] swappedRegisters = { registers[0], registers[1], registers[2], registers[3] };
-    	if (registerOrder == RegisterOrder.HighLow)
+    	if (registerOrder == RegisterOrder.HIGH_LOW)
     		swappedRegisters = new int[] { registers[3], registers[2], registers[1], registers[0] };
     	return ConvertRegistersToLong(swappedRegisters);
     }
@@ -343,7 +343,7 @@ public class ModbusClient
     public static int ConvertRegistersToInt(int[] registers, RegisterOrder registerOrder) throws IllegalArgumentException
     {
         int[] swappedRegisters = { registers[0], registers[1] };
-        if (registerOrder == RegisterOrder.HighLow)
+        if (registerOrder == RegisterOrder.HIGH_LOW)
             swappedRegisters = new int[] { registers[1], registers[0] };
         return ConvertRegistersToInt(swappedRegisters);
     }
@@ -388,7 +388,7 @@ public class ModbusClient
     {
         int[] registerValues = ConvertFloatToRegisters(floatValue);
         int[] returnValue = registerValues;
-        if (registerOrder == RegisterOrder.HighLow)
+        if (registerOrder == RegisterOrder.HIGH_LOW)
             returnValue = new int[] { registerValues[1], registerValues[0] };
         return returnValue;
     }
@@ -433,7 +433,7 @@ public class ModbusClient
     {
         int[] registerValues = ConvertIntToRegisters(intValue);
         int[] returnValue = registerValues;
-        if (registerOrder == RegisterOrder.HighLow)
+        if (registerOrder == RegisterOrder.HIGH_LOW)
             returnValue = new int[] { registerValues[1], registerValues[0] };
         return returnValue;
     }
@@ -493,7 +493,7 @@ public class ModbusClient
 	 {
 	     int[] registerValues = ConvertLongToRegisters(longValue);
 	     int[] returnValue = registerValues;
-	     if (registerOrder == RegisterOrder.HighLow)
+	     if (registerOrder == RegisterOrder.HIGH_LOW)
 	         returnValue = new int[] { registerValues[3], registerValues[2], registerValues[1], registerValues[0]};
 	     return returnValue;
 	 }
@@ -554,7 +554,7 @@ public class ModbusClient
 		 {
 		     int[] registerValues = ConvertDoubleToRegisters(doubleValue);
 		     int[] returnValue = registerValues;
-		     if (registerOrder == RegisterOrder.HighLow)
+		     if (registerOrder == RegisterOrder.HIGH_LOW)
 		         returnValue = new int[] { registerValues[3], registerValues[2], registerValues[1], registerValues[0]};
 		     return returnValue;
 		 }

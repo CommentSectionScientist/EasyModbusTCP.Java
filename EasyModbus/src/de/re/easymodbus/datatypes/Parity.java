@@ -2,9 +2,9 @@ package de.re.easymodbus.datatypes;
 
 public enum Parity 
 {
-	None (0),
-	Even (2),
-	Odd(1);
+	NONE (0),
+	EVEN (2),
+	ODD(1);
 	
 	private int value;
     

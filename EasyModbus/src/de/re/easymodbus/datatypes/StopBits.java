@@ -2,9 +2,9 @@ package de.re.easymodbus.datatypes;
 
 public enum StopBits 
 {
-	One (1),
-	OnePointFive (3),
-	Two (2);
+	ONE (1),
+	ONE_POINT_FIVE (3),
+	TWO (2);
 	
 	private int value;
     
