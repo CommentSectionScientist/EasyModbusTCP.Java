@@ -21,5 +21,5 @@ package de.re.easymodbus.modbusserver;
  */
 public interface INumberOfConnectedClientsChangedDelegator 
 {
-    public void NumberOfConnectedClientsChanged();
+    public void numberOfConnectedClientsChanged();
 }

@@ -2261,7 +2261,7 @@ public class ModbusClient
 		{
 			if (this.easyModbus2Mqtt.isConnected())
 				try {
-					easyModbus2Mqtt.Disconnect();
+					easyModbus2Mqtt.disconnect();
 				} catch (MqttException e) {
 					e.printStackTrace();
 				}

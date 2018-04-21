@@ -42,7 +42,7 @@ public class NewJFrame extends javax.swing.JFrame implements de.re.easymodbus.mo
         modbusServer.setClientConnectionTimeout(0);
         try
         {
-            modbusServer.Listen();
+            modbusServer.listen();
         }
         catch (Exception e){}
         jList1.setModel(model);
@@ -608,7 +608,7 @@ public class NewJFrame extends javax.swing.JFrame implements de.re.easymodbus.mo
     }//GEN-LAST:event_jCheckBox8StateChanged
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        this.modbusServer.StopListening();
+        this.modbusServer.stopListening();
     }//GEN-LAST:event_formWindowClosing
 
     private void jScrollBar2AdjustmentValueChanged(java.awt.event.AdjustmentEvent evt) {//GEN-FIRST:event_jScrollBar2AdjustmentValueChanged
@@ -723,7 +723,7 @@ public class NewJFrame extends javax.swing.JFrame implements de.re.easymodbus.mo
         }   
     }   
     
-    public void NumberOfConnectedClientsChanged()
+    public void numberOfConnectedClientsChanged()
     {
         this.jLabel7.setText(String.valueOf(modbusServer.getNumberOfConnectedClients()));
     }

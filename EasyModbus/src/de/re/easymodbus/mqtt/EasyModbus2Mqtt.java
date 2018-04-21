@@ -84,7 +84,7 @@ public class EasyModbus2Mqtt extends Thread
                 mqttClient.publish(topic, new byte[0], 0, this.retainMessages);
     }
 
-    public void Disconnect() throws MqttException
+    public void disconnect() throws MqttException
     {
         mqttClient.disconnect();
         mqttClient.close();

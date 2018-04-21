@@ -142,8 +142,8 @@ class ProcessReceivedDataThread extends Thread
                        easyModbusTCPServer.receiveData.receiveRegisterValues[i] = (int) (easyModbusTCPServer.receiveData.receiveRegisterValues[i] + (byteData[1] <<8));                   	  
                    }                
                }
-               easyModbusTCPServer.CreateAnswer(socket);
-               easyModbusTCPServer.CreateLogData();
+               easyModbusTCPServer.createAnswer(socket);
+               easyModbusTCPServer.createLogData();
             }
 	}
 	

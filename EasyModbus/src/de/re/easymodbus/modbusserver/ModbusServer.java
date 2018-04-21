@@ -88,7 +88,7 @@ public class ModbusServer extends Thread
      * Method opens port and starts listening for incomming requests from client.
      * @throws IOException
      */
-    public void Listen() throws IOException
+    public void listen() throws IOException
     {
         /*
         coils[1] = true;
@@ -112,13 +112,13 @@ public class ModbusServer extends Thread
      * Stops the Modbus Server
      */
     @SuppressWarnings("deprecation")
-	public void StopListening()
+	public void stopListening()
     {
             serverRunning = false;
             listenerThread.stop();
     }
     
-    protected void CreateAnswer(java.net.Socket socket)
+    protected void createAnswer(java.net.Socket socket)
     {
 
         switch (receiveData.functionCode)
@@ -126,7 +126,7 @@ public class ModbusServer extends Thread
             // Read Coils
             case 1:
                 if (!functionCode1Disabled)
-                    this.ReadCoils(socket);
+                    this.readCoils(socket);
                 else
                 {
                     sendData.errorCode = (byte)(receiveData.functionCode + 0x80);
@@ -137,7 +137,7 @@ public class ModbusServer extends Thread
             // Read Input Registers
           case 2:
                 if (!functionCode2Disabled)
-                    this.ReadDiscreteInputs(socket);
+                    this.readDiscreteInputs(socket);
                 else
                 {
                     sendData.errorCode = (byte)(receiveData.functionCode + 0x80);
@@ -149,7 +149,7 @@ public class ModbusServer extends Thread
             // Read Holding Registers
             case 3:
                 if (!functionCode3Disabled)
-                    this.ReadHoldingRegisters(socket);
+                    this.readHoldingRegisters(socket);
                 else
                 {
                     sendData.errorCode = (byte)(receiveData.functionCode + 0x80);
@@ -161,7 +161,7 @@ public class ModbusServer extends Thread
             // Read Input Registers
             case 4:
                 if (!functionCode4Disabled)
-                    this.ReadInputRegisters(socket);
+                    this.readInputRegisters(socket);
                 else
                 {
                     sendData.errorCode = (byte)(receiveData.functionCode + 0x80);
@@ -173,7 +173,7 @@ public class ModbusServer extends Thread
             // Write single coil
             case 5:
                 if (!functionCode5Disabled)
-                    this.WriteSingleCoil(socket);
+                    this.writeSingleCoil(socket);
                 else
                 {
                     sendData.errorCode = (byte)(receiveData.functionCode + 0x80);
@@ -185,7 +185,7 @@ public class ModbusServer extends Thread
             // Write single register
             case 6:
                 if (!functionCode6Disabled)
-                    this.WriteSingleRegister(socket);
+                    this.writeSingleRegister(socket);
                 else
                 {
                     sendData.errorCode = (byte)(receiveData.functionCode + 0x80);
@@ -197,7 +197,7 @@ public class ModbusServer extends Thread
             // Write Multiple coils
             case 15:
                     if (!functionCode15Disabled)
-                        this.WriteMultipleCoils(socket);
+                        this.writeMultipleCoils(socket);
                     else
                     {
                         sendData.errorCode = (byte)(receiveData.functionCode + 0x80);
@@ -209,7 +209,7 @@ public class ModbusServer extends Thread
             // Write Multiple registers
             case 16:
                     if (!functionCode16Disabled)
-                        this.WriteMultipleRegisters(socket);
+                        this.writeMultipleRegisters(socket);
                     else
                     {
                         sendData.errorCode = (byte)(receiveData.functionCode + 0x90);
@@ -228,7 +228,7 @@ public class ModbusServer extends Thread
         sendData.timeStamp = Calendar.getInstance();
     }
     
-    private void ReadCoils(java.net.Socket socket)
+    private void readCoils(java.net.Socket socket)
     {
         sendData = new ModbusProtocoll();
         sendData.response = true;
@@ -323,7 +323,7 @@ public class ModbusServer extends Thread
 				}
     }
     
-    private void ReadDiscreteInputs(java.net.Socket socket)
+    private void readDiscreteInputs(java.net.Socket socket)
     {
         sendData = new ModbusProtocoll();
         sendData.response = true;
@@ -419,7 +419,7 @@ public class ModbusServer extends Thread
       
     }
     
-    private void ReadHoldingRegisters(java.net.Socket socket)
+    private void readHoldingRegisters(java.net.Socket socket)
     {
         sendData = new ModbusProtocoll();
         sendData.response = true;
@@ -503,7 +503,7 @@ public class ModbusServer extends Thread
 				} 
     }
     
-    private void ReadInputRegisters(java.net.Socket socket)
+    private void readInputRegisters(java.net.Socket socket)
     {
         sendData = new ModbusProtocoll();
         sendData.response = true;
@@ -586,7 +586,7 @@ public class ModbusServer extends Thread
 				} 
     }
    
-    private void WriteSingleCoil(java.net.Socket socket)
+    private void writeSingleCoil(java.net.Socket socket)
     {
         sendData = new ModbusProtocoll();
         sendData.response = true;
@@ -677,7 +677,7 @@ public class ModbusServer extends Thread
                 notifyCoilsChanged.coilsChangedEvent();
     }
     
-    private void WriteSingleRegister(java.net.Socket socket)
+    private void writeSingleRegister(java.net.Socket socket)
     {
         sendData = new ModbusProtocoll();
         sendData.response = true;
@@ -762,7 +762,7 @@ public class ModbusServer extends Thread
                 notifyHoldingRegistersChanged.holdingRegistersChangedEvent();
     }
  
-    private void WriteMultipleCoils(java.net.Socket socket)
+    private void writeMultipleCoils(java.net.Socket socket)
     {
         sendData = new ModbusProtocoll();
         sendData.response = true;
@@ -865,7 +865,7 @@ public class ModbusServer extends Thread
                 notifyCoilsChanged.coilsChangedEvent();
     }
     
-    private void WriteMultipleRegisters(java.net.Socket socket)
+    private void writeMultipleRegisters(java.net.Socket socket)
     {
         sendData = new ModbusProtocoll();
         sendData.response = true;
@@ -1007,7 +1007,7 @@ public class ModbusServer extends Thread
              } 
     }
     
-    protected void CreateLogData()
+    protected void createLogData()
     {
         for (int i = 0; i < 98; i++)
         {
@@ -1111,7 +1111,7 @@ public class ModbusServer extends Thread
     {
         this.numberOfConnections = value;
         if (this.notifyNumberOfConnectedClientsChanged != null)
-            this.notifyNumberOfConnectedClientsChanged.NumberOfConnectedClientsChanged();
+            this.notifyNumberOfConnectedClientsChanged.numberOfConnectedClientsChanged();
     }
     
     
